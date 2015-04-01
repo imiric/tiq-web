@@ -1,3 +1,13 @@
 Meteor.startup(function () {
-  // code to run on server at startup
+  Tiqs._ensureIndex({text: 1});
+});
+
+Meteor.methods({
+  associateTags: function(text, tags) {
+    Tiqs.upsert({text: text}, {$addToSet: {tags: {$each: tags}}});
+
+    _.each(tags, function(tag) {
+      Tiqs.upsert({text: tag}, {$addToSet: {tags: text}});
+    });
+  }
 });
