@@ -1,0 +1,11 @@
+<template name="latestTiqs">
+  <div class="latest-tiqs">
+    <ul>
+      {{#each tiqs 50}}
+        <li>
+          <a href="{{pathFor 'home'}}">{{text}}</a>
+        </li>
+      {{/each}}
+    </ul>
+  </div>
+</template>
