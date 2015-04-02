@@ -1,9 +1,16 @@
 @import "susy/sass/susy";
-@import "concise/scss/concise";
+@import "skyblue/sass/skyblue";
+
+html {
+  background-color: #fbfbfb;
+  color: #555555;
+}
 
 body {
   @include container(70em);
   font-family: 'Raleway', Arial, sans-serif;
+  font-size: 100%;
+  margin-top: 1em;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -19,4 +26,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .latest-tiqs ul {
   margin-top: 0;
+  li {
+    list-style-type: none;
+  }
 }

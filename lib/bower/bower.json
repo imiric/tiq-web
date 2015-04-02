@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "dependencies": {
     "susy": "2.2.2",
-    "concise": "2.1.0"
+    "skyblue": "1.0.3"
   },
   "private": true
 }
