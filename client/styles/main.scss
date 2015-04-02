@@ -1,0 +1,22 @@
+@import "susy/sass/susy";
+@import "concise/scss/concise";
+
+body {
+  @include container(70em);
+  font-family: 'Raleway', Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Raleway', Arial, sans-serif;
+}
+
+#sidebar {
+  @include span(2 of 14);
+  padding-left: 1em;
+}
+
+#main { @include span(last 12 of 14); }
+
+.latest-tiqs ul {
+  margin-top: 0;
+}

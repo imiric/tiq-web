@@ -1,0 +1,9 @@
+{
+  "name": "tiq-web",
+  "version": "0.0.0",
+  "dependencies": {
+    "susy": "2.2.2",
+    "concise": "2.1.0"
+  },
+  "private": true
+}
