@@ -9,9 +9,13 @@
     </li>
     {{#each tags}}
     <li>
-      <a class="tag" href="{{pathFor 'home' text=this}}" contenteditable="true">{{this}}</a>
+      {{> tag tag=this}}
     </li>
     {{/each}}
   </ul>
   {{/unless}}
+</template>
+
+<template name="tag">
+  <a class="tag" href="{{pathFor 'home' text=tag}}">{{tag}}</a>
 </template>

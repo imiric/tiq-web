@@ -10,6 +10,7 @@ var addTiq = function(ctx, el, template) {
     el.removeClass('placeholder');
     Meteor.call('associateTags', text, []);
     Router.go('home', {text: text});
+    // FIXME: This doesn't work.
     template.$('.tag').eq(0).focus();
   }
 };
@@ -30,16 +31,11 @@ Template.addTags.events({
     if (!text) {
       el.addClass('placeholder');
       el.text('add ' + elType);
-    } else if (text != this && text != this.text) {
+    } else if (text != this && text != this.text && text != this.tag) {
       addTiq(this, el, template);
     }
 
-    return false;
-  },
-
-  'click .tag': function(event, template) {
-    // Stop handling anchor clicks
-    // TODO: Override this with a Shift+click.
+    Session.set('editing', false);
     return false;
   },
 
@@ -49,4 +45,19 @@ Template.addTags.events({
       el.text('');
     }
   }
+});
+
+Template.tag.events({
+  'click': function(event, template) {
+    if (event.shiftKey || Session.equals('editing', true)) {
+      var el = template.$(event.target);
+      // Disable editing of all other tags, in order to show the hand pointer
+      // on hover, indicating to the user that clicking on the others will
+      // follow the link. Technically, this still doesn't work properly in
+      // Chrome, but does in Firefox. :-/
+      el.parents('ul').find('a.tag').not(el).attr('contenteditable', false);
+      Session.set('editing', true);
+      return false;
+    }
+  },
 });
