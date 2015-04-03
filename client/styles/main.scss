@@ -2,8 +2,8 @@
 @import "skyblue/sass/skyblue";
 
 html {
-  background-color: #fbfbfb;
-  color: #555555;
+  background-color: $body-background;
+  color: $text-color;
 }
 
 body {
@@ -17,6 +17,15 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Raleway', Arial, sans-serif;
 }
 
+*[contenteditable="true"] {
+  border: none;
+  outline: none;
+
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
 #sidebar {
   @include span(2 of 14);
   padding-left: 1em;
@@ -24,9 +33,26 @@ h1, h2, h3, h4, h5, h6 {
 
 #main { @include span(last 12 of 14); }
 
-.latest-tiqs ul {
-  margin-top: 0;
+.list-tags {
+  padding-left: 0;
+}
+
+.list-unstyled {
   li {
     list-style-type: none;
   }
+}
+
+.tags {
+  li, p {
+    display: inline-block;
+    margin-right: 1em;
+  }
+}
+
+.placeholder {
+  color: transparentize($text-color, 0.5);
+  min-width: 4em;
+  margin-right: 0 !important;
+  margin-bottom: 0 !important;
 }

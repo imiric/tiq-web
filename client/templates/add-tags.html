@@ -1,5 +1,17 @@
 <template name="addTags">
-  <input type="text" name="text">
-  <input type="text" name="tags">
-  <button class="btn">Associate</button>
+  {{#unless text}}
+  <h3 class="text placeholder" contenteditable="true">add text</h3>
+  {{else}}
+  <h3 class="text" contenteditable="true">{{text}}</h3>
+  <ul class="list-unstyled list-tags tags">
+    <li>
+      <p class="tag placeholder" contenteditable="true">add tag</p>
+    </li>
+    {{#each tags}}
+    <li>
+      <a class="tag" href="{{pathFor 'home' text=this}}" contenteditable="true">{{this}}</a>
+    </li>
+    {{/each}}
+  </ul>
+  {{/unless}}
 </template>

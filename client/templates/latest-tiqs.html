@@ -1,6 +1,7 @@
 <template name="latestTiqs">
   <div class="latest-tiqs">
-    <ul class="list-unstyled">
+    <h5>latest tiqs</h5>
+    <ul class="list-unstyled list-tags">
       {{#each tiqs 50}}
         <li>
           <a href="{{pathFor 'home'}}">{{text}}</a>
