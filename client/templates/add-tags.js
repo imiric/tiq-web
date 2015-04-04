@@ -4,21 +4,54 @@ var addTiq = function(ctx, el, template) {
   if (ctx.text) {
     // Adding a new tag to existing text
     Meteor.call('associateTags', ctx.text, [text]);
-    template.$('.tag').eq(0).focus();
   } else {
     // Adding new text
     el.removeClass('placeholder');
     Meteor.call('associateTags', text, []);
     Router.go('home', {text: text});
     // FIXME: This doesn't work.
-    template.$('.tag').eq(0).focus();
+    template.$('.tags .tag').eq(0).focus();
   }
 };
+
+// Workaround for making Meteor work with contenteditable elements.
+// See https://github.com/meteor/meteor/issues/1964#issuecomment-57948734.
+var TEMPLATES = {
+  'text': _.template('<h3 class="text <%= classes %>" '
+                   + 'data-placeholder="add text" '
+                   + 'contenteditable="true">'
+                   + '<%= value %></h3>'),
+  'tag': _.template('<p class="tag <%= classes %>" '
+                   + 'data-placeholder="add tag" '
+                   + 'contenteditable="true">'
+                   + '<%= value %></p>')
+};
+
+Template.addTags.helpers({
+  editable: function(type) {
+    var value = this.text, classes = '';
+    if (!value) {
+      value = 'add ' + type;
+      classes = 'placeholder';
+    }
+    return TEMPLATES[type]({value: value, classes: classes});
+  }
+});
 
 Template.addTags.events({
   'keydown .text, keydown .tag': function(event, template) {
     if (_.contains([9, 13], event.keyCode)) {
-      event.target.blur();
+      var el = template.$(event.target),
+          text = el.text(),
+          ctx = this.parent ? {text: this.parent} : this;
+
+      addTiq(ctx, el, template);
+
+      if (el.hasClass('placeholder') && !el.hasClass('text')) {
+        el.html('');
+      } else {
+        event.target.blur();
+      }
       return false;
     }
   },
@@ -26,38 +59,34 @@ Template.addTags.events({
   'blur .text, blur .tag': function(event, template) {
     var el = template.$(event.target),
         text = el.text(),
-        elType = el.hasClass('tag') ? 'tag' : 'text';
+        origText = this.text;
 
-    if (!text) {
-      el.addClass('placeholder');
-      el.text('add ' + elType);
-    } else if (text != this && text != this.text && text != this.tag) {
-      addTiq(this, el, template);
+    // TODO: Simplify this mess.
+    if (!text || el.hasClass('placeholder')) {
+      origText = el.data('placeholder');
     }
 
-    Session.set('editing', false);
+    if (!text || text != origText) {
+      el.text(origText);
+    }
+
+    Session.set('editing', null);
+    if (!el.hasClass('placeholder') && !el.hasClass('text')) {
+      el.attr('contenteditable', false);
+    }
     return false;
   },
 
-  'focus .text, focus .tag': function(event, template) {
-    var el = template.$(event.target);
-    if (el.hasClass('placeholder')) {
-      el.text('');
-    }
-  }
-});
+  'focus .text.placeholder, focus .tag.placeholder': function(event, template) {
+    event.target.innerHTML = '';
+  },
 
-Template.tag.events({
-  'click': function(event, template) {
-    if (event.shiftKey || Session.equals('editing', true)) {
-      var el = template.$(event.target);
-      // Disable editing of all other tags, in order to show the hand pointer
-      // on hover, indicating to the user that clicking on the others will
-      // follow the link. Technically, this still doesn't work properly in
-      // Chrome, but does in Firefox. :-/
-      el.parents('ul').find('a.tag').not(el).attr('contenteditable', false);
-      Session.set('editing', true);
+  'click .tag:not(.placeholder)': function(event, template) {
+    var el = template.$(event.target),
+        idx = $('.tags li > a').index(el);
+    if (event.shiftKey || Session.equals('editing', idx)) {
+      Session.set('editing', idx);
       return false;
     }
-  },
+  }
 });

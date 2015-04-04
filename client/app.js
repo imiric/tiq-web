@@ -4,8 +4,10 @@ Meteor.startup(function() {
       $('.tags li > a').attr('contenteditable', true);
     }
   }).keyup(function(event) {
-    if (event.keyCode === 16 && Session.equals('editing', false)) {
-      $('.tags li > a').attr('contenteditable', false);
+    if (event.keyCode === 16) {
+      $('.tags li > a'
+        ).not(':eq(' + Session.get('editing') + ')'
+        ).attr('contenteditable', false);
     }
   });
 });

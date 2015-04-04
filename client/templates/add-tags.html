@@ -1,21 +1,21 @@
 <template name="addTags">
   {{#unless text}}
-  <h3 class="text placeholder" contenteditable="true">add text</h3>
+  {{{editable 'text'}}}
   {{else}}
-  <h3 class="text" contenteditable="true">{{text}}</h3>
+  {{{editable 'text'}}}
   <ul class="list-unstyled list-tags tags">
     <li>
-      <p class="tag placeholder" contenteditable="true">add tag</p>
+    {{#with parent=text}}
+      {{{editable 'tag'}}}
+    {{/with}}
     </li>
     {{#each tags}}
     <li>
-      {{> tag tag=this}}
+      {{#with text=this parent=../text}}
+      <a class="tag" href="{{pathFor 'home' text=text}}">{{text}}</a>
+      {{/with}}
     </li>
     {{/each}}
   </ul>
   {{/unless}}
-</template>
-
-<template name="tag">
-  <a class="tag" href="{{pathFor 'home' text=tag}}">{{tag}}</a>
 </template>
