@@ -1,0 +1,31 @@
+{
+  "name": "tiq-web",
+  "version": "0.0.0",
+  "description": "Tag anything, in your browser.",
+  "main": "",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-util": "^3.0.4",
+    "gulp-nightwatch-headless": "^1.0.3"
+  },
+  "scripts": {
+    "test": "gulp test:firefox"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/imiric/tiq-web.git"
+  },
+  "keywords": [
+    "tiq",
+    "taq",
+    "web",
+    "browser"
+  ],
+  "author": "Ivan Mirić",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/imiric/tiq-web/issues"
+  },
+  "homepage": "https://github.com/imiric/tiq-web"
+}
