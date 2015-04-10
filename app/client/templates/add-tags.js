@@ -48,7 +48,7 @@ Template.addTags.events({
       addTiq(ctx, el, template);
 
       if (el.hasClass('placeholder') && !el.hasClass('text')) {
-        el.html('');
+        el.html('<br>');
       } else {
         event.target.blur();
       }
@@ -78,7 +78,7 @@ Template.addTags.events({
   },
 
   'focus .text.placeholder, focus .tag.placeholder': function(event, template) {
-    event.target.innerHTML = '';
+    event.target.innerHTML = '<br>';
   },
 
   'click .tag:not(.placeholder)': function(event, template) {
