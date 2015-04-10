@@ -28,7 +28,6 @@ h1, h2, h3, h4, h5, h6 {
 
 #sidebar {
   @include span(2 of 14);
-  padding-left: 1em;
 }
 
 #main { @include span(last 12 of 14); }
