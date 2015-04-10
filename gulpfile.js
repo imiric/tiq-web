@@ -2,7 +2,7 @@
 
 var gulp = require('gulp'),
     gutil = require('gulp-util'),
-    nightwatchHeadless = require( 'gulp-nightwatch-headless' );
+    nightwatchHeadless = require('gulp-nightwatch-headless');
 
 // Base directories
 var bases = {
@@ -19,7 +19,7 @@ var nightwatchConfig = {
       ],
       "output_folder": "app/tests/nightwatch/.report",
       "selenium": {
-        "host" : "localhost",
+        "host": "localhost",
         "port": 4444
       },
       "test_settings": {
