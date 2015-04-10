@@ -1,1 +1,1 @@
-Tiqs = new Mongo.Collection("tiqs");
+Tiqs = new Mongo.Collection('tiqs');

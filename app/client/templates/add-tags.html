@@ -11,8 +11,8 @@
     </li>
     {{#each tags}}
     <li>
-      {{#with text=this parent=../text}}
-      <a class="tag" href="{{pathFor 'home' text=text}}">{{text}}</a>
+      {{#with tag=this parent=../text}}
+      <a class="tag" href="{{pathFor 'home' encodeText}}">{{tag}}</a>
       {{/with}}
     </li>
     {{/each}}
