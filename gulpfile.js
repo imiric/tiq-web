@@ -23,6 +23,7 @@ var nightwatchConfig = {
         bases.nwTests
       ],
       "custom_commands_path": [bases.nwCommands],
+      "globals_path" : bases.nw + "/globals.js",
       "output_folder": bases.nwReport,
       "selenium": {
         "host": "localhost",

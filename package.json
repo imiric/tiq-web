@@ -5,9 +5,11 @@
   "main": "",
   "dependencies": {},
   "devDependencies": {
+    "async": "^0.9.0",
     "gulp": "^3.8.11",
+    "gulp-nightwatch-headless": "^1.0.3",
     "gulp-util": "^3.0.4",
-    "gulp-nightwatch-headless": "^1.0.3"
+    "mongodb": "^2.0.27"
   },
   "scripts": {
     "test": "gulp test:firefox"
