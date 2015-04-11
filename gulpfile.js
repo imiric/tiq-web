@@ -7,17 +7,23 @@ var gulp = require('gulp'),
 // Base directories
 var bases = {
   app: 'app',
-  config: 'config'
+  config: 'config',
+  nw: 'app/tests/nightwatch'
 };
+
+bases['nwCommands'] = bases.nw + '/commands';
+bases['nwTests'] = bases.nw + '/tests';
+bases['nwReport'] = bases.nw + '/.report';
 
 var nightwatchConfig = {
   nightwatch: {
     tempDir: '/tmp',
     config: {
       "src_folders": [
-        "app/tests/nightwatch"
+        bases.nwTests
       ],
-      "output_folder": "app/tests/nightwatch/.report",
+      "custom_commands_path": [bases.nwCommands],
+      "output_folder": bases.nwReport,
       "selenium": {
         "host": "localhost",
         "port": 4444
