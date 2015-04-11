@@ -7,6 +7,11 @@ var dbPort = fs.readFileSync('app/.meteor/local/db/METEOR-PORT', 'utf8');
 var db = new Db('meteor', new Server('localhost', dbPort));
 
 module.exports = {
+  baseUrl: 'http://localhost:3000',
+  placeholders: {
+    text: {sel: '.text.placeholder', value: 'add text'},
+    tag:  {sel: '.tag.placeholder',  value: 'add tag'}
+  },
   beforeEach: function(client, done) {
     console.log('>>> Clearing test collections');
     db.open(function(err, db) {

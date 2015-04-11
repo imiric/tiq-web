@@ -1,10 +1,3 @@
-var baseUrl = 'http://localhost:3000';
-
-var placeholders = {
-  text: {sel: '.text.placeholder', value: 'add text'},
-  tag:  {sel: '.tag.placeholder',  value: 'add tag'}
-};
-
 module.exports = {
   '"latest tiqs" should be empty': function(client) {
     client.init()
@@ -14,12 +7,12 @@ module.exports = {
 
   'tag placeholder should not be present': function(client) {
     client
-      .assert.elementNotPresent(placeholders.tag.sel);
+      .assert.elementNotPresent(client.globals.placeholders.tag.sel);
   },
 
   'entering text and pressing Enter should add a new Tiq': function(client) {
     client
-      .click(placeholders.text.sel)
+      .click(client.globals.placeholders.text.sel)
       .keys(['cities', client.Keys.ENTER])
       .pause(100)
       .elements('css selector', '.latest-tiqs li', function(result) {
@@ -32,20 +25,20 @@ module.exports = {
 
   '... and redirect to the tiq\'s page': function(client) {
     client
-      .assert.urlEquals(baseUrl + '/cities');
+      .assert.urlEquals(client.globals.baseUrl + '/cities');
   },
 
   'clicking on "tiq" should return to homepage': function(client) {
     client
       .click('h1 a')
       .pause(100)
-      .assert.urlEquals(baseUrl + '/')
-      .assert.elementPresent(placeholders.text.sel);
+      .assert.urlEquals(client.globals.baseUrl + '/')
+      .assert.elementPresent(client.globals.placeholders.text.sel);
   },
 
   'entering the same text should *not* add a new Tiq': function(client) {
     client
-      .click(placeholders.text.sel)
+      .click(client.globals.placeholders.text.sel)
       .keys(['cities', client.Keys.ENTER])
       .pause(100)
       .elements('css selector', '.latest-tiqs li', function(result) {
@@ -58,17 +51,17 @@ module.exports = {
 
   '... but should redirect to the tiq\'s page': function(client) {
     client
-      .assert.urlEquals(baseUrl + '/cities');
+      .assert.urlEquals(client.globals.baseUrl + '/cities');
   },
 
   'tag placeholder should be present': function(client) {
     client
-      .assert.elementPresent(placeholders.tag.sel);
+      .assert.elementPresent(client.globals.placeholders.tag.sel);
   },
 
   'entering a tag and pressing Enter should add a new Tiq': function(client) {
     client
-      .click(placeholders.tag.sel)
+      .click(client.globals.placeholders.tag.sel)
       .keys(['paris', client.Keys.ENTER])
       .pause(100)
       // ... which should appear in the tag list
@@ -89,7 +82,7 @@ module.exports = {
 
   '... but the URL shouldn\'t change': function(client) {
     client
-      .assert.urlEquals(baseUrl + '/cities');
+      .assert.urlEquals(client.globals.baseUrl + '/cities');
   },
 
   'the tag placeholder should remain the active element': function(client) {
@@ -106,7 +99,7 @@ module.exports = {
   'adding more tags should repeat the process as for a single one': function(client) {
     // TODO: Figure out why this test fails on PhantomJS, but passes on Firefox.
     client
-      .click(placeholders.tag.sel)
+      .click(client.globals.placeholders.tag.sel)
       .keys(['amsterdam', client.Keys.ENTER])
       .keys(['cairo', client.Keys.ENTER])
       .keys(['belgrade', client.Keys.ENTER])
@@ -134,7 +127,7 @@ module.exports = {
       .getText('h3.text', function(result) {
         this.assert.equal(result.value, 'paris', 'header text is "paris"');
       })
-      .assert.urlEquals(baseUrl + '/paris')
+      .assert.urlEquals(client.globals.baseUrl + '/paris')
       .elements('css selector', '#main .tags a', function(result) {
         this.assert.equal(result.value.length, 1, 'tag list has 1 element');
         this.elementIdText(result.value[0].ELEMENT, function(result) {
