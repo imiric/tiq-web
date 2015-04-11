@@ -8,7 +8,7 @@ var addTiq = function(ctx, el, template) {
     // Adding new text
     el.removeClass('placeholder');
     Meteor.call('associateTags', text, []);
-    Router.go('home', {text: text});
+    Router.go('home', {text: encodeURIComponent(text)});
     // FIXME: This doesn't work.
     template.$('.tags .tag').eq(0).focus();
   }
