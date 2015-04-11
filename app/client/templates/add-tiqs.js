@@ -27,7 +27,7 @@ var TEMPLATES = {
                    + '<%= value %></p>')
 };
 
-Template.addTags.helpers({
+Template.addTiqs.helpers({
   editable: function(type) {
     var value = this.text, classes = '';
     if (!value) {
@@ -38,7 +38,7 @@ Template.addTags.helpers({
   }
 });
 
-Template.addTags.events({
+Template.addTiqs.events({
   'keydown .text, keydown .tag': function(event, template) {
     if (_.contains([9, 13], event.keyCode)) {
       var el = template.$(event.target),
