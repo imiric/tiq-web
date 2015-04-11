@@ -4,9 +4,7 @@
     <ul class="list-unstyled list-tags">
       {{#each tiqs 50}}
         <li>
-          {{#with tag=text}}
-          <a href="{{pathFor 'home' encodeText}}">{{tag}}</a>
-          {{/with}}
+          <a href="/{{encodeText text}}">{{text}}</a>
         </li>
       {{/each}}
     </ul>

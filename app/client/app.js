@@ -12,7 +12,6 @@ Meteor.startup(function() {
   });
 });
 
-Template.registerHelper('encodeText', function() {
-  this.text = encodeURIComponent(this.tag);
-  return this;
+Template.registerHelper('encodeText', function(text) {
+  return encodeURIComponent(text);
 });
