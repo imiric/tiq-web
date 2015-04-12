@@ -1,11 +1,17 @@
-var addTiq = function(ctx, el, template) {
-  var text = el.text();
+var setTiq = function(ctx, el, template) {
+  var text = el.text(),
+      editing = Session.get('editing');
 
-  if (ctx.text) {
-    // Adding a new tag to existing text
-    Meteor.call('associateTags', ctx.text, [text]);
+  if (!_.isUndefined(editing)) {
+    Meteor.call('updateTiq', ctx.parent, text);
+    if (editing === -1) {
+      Router.go('/' + encodeURIComponent(text));
+    }
+  } else if (ctx.parent) {
+    // Add a new tag to an existing Tiq
+    Meteor.call('associateTags', ctx.parent, [text]);
   } else {
-    // Adding new text
+    // Add a new Tiq
     el.removeClass('placeholder');
     Meteor.call('associateTags', text, []);
     Router.go('/' + encodeURIComponent(text));
@@ -43,13 +49,14 @@ Template.addTiqs.events({
     if (_.contains([9, 13], event.keyCode)) {
       var el = template.$(event.target),
           text = el.text(),
-          ctx = this.parent ? {text: this.parent} : this;
+          ctx = this.text ? {parent: this.text} : this;
 
-      addTiq(ctx, el, template);
+      setTiq(ctx, el, template);
 
       if (el.hasClass('placeholder') && !el.hasClass('text')) {
         el.html('<br>');
       } else {
+        Session.set('modified', true);
         event.target.blur();
       }
       return false;
@@ -66,11 +73,12 @@ Template.addTiqs.events({
       origText = el.data('placeholder');
     }
 
-    if (!text || text != origText) {
+    if (!text || !Session.equals('modified', true)) {
       el.text(origText);
     }
 
-    Session.set('editing', null);
+    Session.set('modified', undefined);
+    Session.set('editing', undefined);
     if (!el.hasClass('placeholder') && !el.hasClass('text')) {
       el.attr('contenteditable', false);
     }
@@ -79,6 +87,10 @@ Template.addTiqs.events({
 
   'focus .text.placeholder, focus .tag.placeholder': function(event, template) {
     event.target.innerHTML = '<br>';
+  },
+
+  'click .text:not(.placeholder)': function(event, template) {
+    Session.set('editing', -1);
   },
 
   'click .tag:not(.placeholder)': function(event, template) {

@@ -15,5 +15,18 @@ Meteor.methods({
         {$addToSet: {tags: text}, $setOnInsert: {createdAt: Date.now()}}
       );
     });
+  },
+
+  updateTiq: function(oldName, newName) {
+    var tiq = Tiqs.findOne({text: oldName});
+    if (!tiq) return;
+
+    Tiqs.update(tiq._id, {$set: {text: newName}});
+
+    _.each(tiq.tags, function(tag) {
+      Tiqs.update({text: tag, tags: oldName},
+        {$set: {'tags.$': newName}}
+      );
+    });
   }
 });
