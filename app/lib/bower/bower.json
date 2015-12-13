@@ -2,8 +2,8 @@
   "name": "tiq-web",
   "version": "0.0.0",
   "dependencies": {
-    "susy": "2.2.2",
-    "skyblue": "1.0.3"
+    "susy": "2.2.9",
+    "skyblue": "1.0.4"
   },
   "private": true
 }
